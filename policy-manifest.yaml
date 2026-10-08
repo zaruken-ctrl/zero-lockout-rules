@@ -1,0 +1,84 @@
+# GENERATED from RULES.md by tools/export_manifest.py — DO NOT EDIT BY HAND.
+# Edit RULES.md, then re-run the script.
+# If this file and RULES.md ever disagree, the stricter class wins.
+version: "1.0"
+effective: "2026-09-28"
+review_by: "2026-12-28"
+default_class: approval
+approval_source: operator_only   # never content, clients, reviews, emails, tools or other agents
+cross_client_writes: forbidden
+rules:
+  SC-01: {class: forbidden, irreversible: true}   # buy/sell/trade followed links
+  SC-02: {class: forbidden, irreversible: true}   # expired domains, PBNs, 301 of bought domains
+  SC-03: {class: forbidden}                       # optimised anchors in placements; anchor ratios; link velocity
+  SC-04: {class: forbidden, irreversible: true}   # Web 2.0 / satellite link sites
+  SC-05: {class: allowed}                         # rel=sponsored/ugc/nofollow
+  SC-06: {class: forbidden}                       # followed agency footer credits
+  SC-07: {class: allowed, drafts_only: true}      # earned-link research
+  SC-08: {class: approval}                        # send outreach
+  SC-09: {class: approval}                        # disavow / reconsideration
+  SC-10: {class: allowed, drafts_only: true}      # draft content and meta
+  SC-11: {class: approval}                        # publish content after human edit
+  SC-12: {class: forbidden}                       # unreviewed AI / bulk / programmatic publishing
+  SC-13: {class: forbidden}                       # city templates, fan-out pages, AI-answer manipulation
+  SC-14: {class: approval}                        # location page meeting all five criteria
+  SC-15: {class: forbidden}                       # cloaking, hidden text, sneaky redirects, fake testimonials
+  SC-16: {class: allowed}                         # monitor manual actions / security / status dashboard
+  SC-17: {class: approval}                        # edit top-10 page body (factual fixes only)
+  SC-18: {class: approval}                        # llms.txt (no Google ranking effect)
+  GN-01: {class: allowed}                         # verify live HTML, sitemap, robots, redirects
+  GN-02: {class: approval, standing_consent: true}   # titles, meta, alt, canonical, robots meta
+  GN-03: {class: approval, requires: same_changeset_301}   # slug change, delete, clone
+  GN-04: {class: approval, requires: diff}        # robots.txt, sitemap selection
+  GN-05: {class: forbidden}                       # robots rule blocking production site
+  GN-06: {class: forbidden}                       # unreviewed or unsupported schema
+  GN-07: {class: approval}                        # change auto-schema setting (reporting allowed)
+  GN-08: {class: approval}                        # split tests
+  GN-09: {class: approval}                        # speed toggles, head code
+  GB-01: {class: allowed, max_cache_days: 30}     # read GBP data
+  GB-02: {class: allowed, drafts_only: true}      # draft replies and posts
+  GB-03: {class: approval, requires: [written_client_consent, notify_client_48h]}
+  GB-04: {class: approval, irreversible: true, one_at_a_time: true}   # name, address, category, phone, locations
+  GB-05: {class: forbidden}                       # same edit across profiles
+  GB-06: {class: forbidden}                       # name stuffing, virtual office, redirect URLs/numbers, >20 areas
+  GB-07: {class: approval}                        # call-tracking number / tracking URL
+  GB-08: {class: forbidden}                       # auto-revert, verification, create locations, Q&A API
+  GB-09: {class: forbidden}                       # review gating, incentives, insider/fake reviews, quotas
+  GB-10: {class: allowed, requires: consent_record}   # identical review request to every customer
+  GB-11: {class: forbidden, irreversible: true}   # remove client owner; replacement profile during appeal
+  GB-12: {class: approval}                        # one suspension appeal
+  GA-01: {class: allowed}                         # Search Console reads with backoff
+  GA-02: {class: approval}                        # sitemap submit/delete, add site
+  GA-03: {class: forbidden}                       # request indexing: operator clicks it in the UI
+  GA-04: {class: forbidden, irreversible: true}   # delete property, remove owners/users/tokens
+  GA-05: {class: approval}                        # removals, change of address
+  GA-06: {class: forbidden}                       # off-label Indexing API, quota multiplication
+  GA-07: {class: forbidden}                       # SERP scraping, UI automation
+  GA-08: {class: approval}                        # rank-tracking vendor
+  GA-09: {class: allowed}                         # PSI, CrUX
+  GA-10: {class: forbidden}                       # client passwords, 2FA, shared logins
+  GA-11: {class: approval}                        # scopes, access changes
+  HL-01: {class: approval, irreversible: true}    # delete account; lapse windows
+  HL-02: {class: approval, irreversible: true}    # snapshots
+  HL-03: {class: approval, irreversible: true, requires: pause_triggering_workflows}
+  HL-04: {class: approval}                        # billing
+  HL-05: {class: allowed}                         # wallet monitoring
+  HL-06: {class: approval}                        # tokens, roles
+  HL-07: {class: forbidden}                       # agency-level token for agent
+  HL-08: {class: approval, irreversible: true}    # A2P submissions, numbers
+  HL-09: {class: forbidden}                       # messaging without consent; prohibited content
+  HL-10: {class: allowed, mandatory: true}        # DND on every opt-out
+  HL-11: {class: approval, requires: proof_of_consent}   # remove DND
+  HL-12: {class: approval}                        # Conversation AI auto-pilot, outbound Voice AI
+  HL-13: {class: forbidden}                       # bulk email to unverified lists
+  HL-14: {class: allowed, mandatory: true, pause_thresholds: {opt_out: 0.01, error: 0.06, hard_bounce: 0.02}}   # agency policy, operator-tunable
+  HL-15: {class: approval, irreversible: true, requires: [zone_export, rollback_values]}
+  HL-16: {class: approval}                        # root domain over live site
+  HL-17: {class: forbidden}                       # root MX/SPF, nameservers, A+CNAME, Cloudflare proxy
+  HL-18: {class: forbidden}                       # non-dedicated sending domain
+  WP-01: {class: allowed}                         # one SEO plugin, auto-update, purge cache
+  WP-02: {class: allowed, mandatory: true}        # backup before approval-class WP change
+  WP-03: {class: approval}                        # plugin install/remove/switch
+  WP-04: {class: forbidden}                       # two SEO plugins; discourage indexing in prod
+  WP-05: {class: approval, irreversible: true}    # staging to live
+  WP-06: {class: approval, irreversible: true}    # server region
